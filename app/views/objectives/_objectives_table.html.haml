@@ -1,0 +1,7 @@
+- @objectives.each do |objective|
+    %tr
+        %td= objective.code
+        %td= objective.name
+        %td= link_to 'Edit', edit_objective_path(objective), class: 'btn btn-primary btn-sm tablebutton ajax-modal'
+        %td= link_to 'Remove', objective, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger btn-sm destroybutton"
+        %td= link_to "Audit Log", audit_objective_path(objective), :class => "ajax-modal btn btn-primary btn-sm tablebutton"

@@ -1,0 +1,18 @@
+%h1.tableheader Learning  Outcome Codes
+
+.objbuttonwrapper
+  = link_to "Back", :settings, class: "sameline btn btn-primary btn-lg tablebutton"
+  = link_to 'New Outcome Code', new_objective_path, class: 'sameline btn btn-primary btn-lg newbutton ajax-modal'
+
+%table
+  %thead
+    %tr
+      %th Code
+      %th Title
+      %th
+      %th
+      %th
+
+  %tbody#objectives-table
+    = render 'objectives_table'
+%br

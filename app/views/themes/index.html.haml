@@ -1,0 +1,17 @@
+%h1.tableheader Themes
+
+
+.themebuttonwrapper
+  = link_to "Back", :settings, class: "sameline btn btn-primary btn-lg tablebutton"
+  = link_to 'New Theme', new_theme_path, class: 'sameline btn btn-primary btn-lg newbutton ajax-modal'
+#page-summary
+  = page_entries_info @themes, model: 'request'
+#page-link1
+  = will_paginate @themes
+#themes-table
+  = render 'themes_table'
+%br
+#page-link2
+  = will_paginate @themes
+
+ 

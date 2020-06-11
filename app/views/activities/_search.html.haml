@@ -1,0 +1,38 @@
+:javascript
+  function clearName(){
+      $('#search_fils_id').val(null).trigger('change');
+  }
+
+#modal-window.modal.hide.fade{"aria-hidden" => "true", :role => "dialog"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+= simple_form_for :search, url: activities_path, method: :get, remote: true do |f|
+  %p.tableheaderleft Search by experiment name
+  .row
+    .col-sm-8
+      -# Filters
+      = f.simple_fields_for :fils do |ff|
+        = ff.input :id, as: :select, collection: @activities_by_name, input_html: {class: 'select2', style: "width: 100%"}, id: 'name', include_blank: true, selected: @filters[0][1], label: false, label_method: lambda { |a| "#{a.name} - #{a.uni_module.code}"}, value_method: :id
+
+        - @filters[1..].each do |fil|
+          = ff.hidden_field fil[0], value: fil[1]
+
+      -# Columns
+      = f.simple_fields_for :cols do |ff|
+        - @columns.each do |col|
+          = ff.hidden_field col[0], value: col[1]
+    .col-sm-2
+      %a{:href => "#", :onclick => "clearName()", class: 'clear btn btn-primary btn-md tablebutton', style: "width: 100%"} Clear
+    .col-sm-2
+      = f.submit 'Search', class: 'btn btn-primary btn-md tablebutton', style: "width: 100%"
+  %br
+  .row
+    .col-4#activities-buttons
+      = f.submit "Add More Filters", formaction: filter_activities_path, class: 'btn btn-primary btn-md tablebutton', style: "width: 100%", 'data-toggle' =>  "modal", 'data-target' => '#modal-window'
+      -#= link_to "Add More Filters", filter_activities_path(cols: cols, fils: fils), class: 'ajax-modal btn btn-primary btn-md tablebutton', style: "width: 100%"
+
+    .col-4
+      = link_to 'Reset All Filters', reset_activities_path, remote: true, class: 'btn btn-primary btn-md tablebutton', style: "width: 100%"
+    .col-4
+      = link_to 'View My Activities', my_activities_activities_path, method: :get, remote: true, class: 'btn btn-primary btn-md tablebutton', style: "width: 100%"
+%br

@@ -1,0 +1,16 @@
+-# frozen_string_literal: true
+.modal-dialog
+  .modal-content
+    = simple_form_for(@dropdown, remote: true) do |f|
+
+      .modal-header
+        %h4.modal-title Dropdown option
+        %button.close{ type: :button, data: { dismiss: :modal } }
+          %span &times;
+      .modal-body
+        = f.input :drop_down, as: :hidden
+        = f.input :value
+        = f.input :display_name, as: :hidden
+
+      .modal-footer
+        = f.button :submit, "Create Option", :class => "btn btn-primary btn-sm tablebutton"

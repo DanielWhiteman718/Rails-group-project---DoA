@@ -1,0 +1,33 @@
+-# Used for tick/untick all
+:javascript
+  function selectAll(){
+    $('input[id^="bulk_request_columns"]').each(function() {
+      this.checked = true;                        
+    });
+  }
+  function deselectAll(){
+    $('input[id^="bulk_request_columns"]').each(function() {
+      this.checked = false;                        
+    });
+  }
+
+%h1.tableheader Bulk Edit Request
+%p.tableheader This bulk edit request will be sent for #{@activities} activities
+
+= simple_form_for :bulk_request, url: bulk_request_activities_path, method: :post do |f|
+  = f.hidden_field :act_ids, value: @act_ids
+  %h4.tableheader Please enter a general message for the recipients
+  = f.input :message, label: false, required: true, as: :text
+  %h4.tableheader Please select the recipient groups for this edit request
+  = f.input :users, as: :check_boxes, collection: ["MEE Lead", "Module Lead", "Technical Lead"], label: "", required: false
+  %hr
+  %h4.tableheader Please select the fields for this edit request
+  .actbuttonwrapper
+    %a{:href => "#", :onclick => "selectAll()", class: 'sameline btn btn-primary btn-sm tablebutton', style: "width: 20%"} Select All
+    %a{:href => "#", :onclick => "deselectAll()", class: 'sameline btn btn-primary btn-sm tablebutton', style: "width: 20%"} Deselect All 
+  = f.input :columns, as: :check_boxes, collection: @columns, label: "", required: false, label_method: lambda { |column| "#{column[:display_name]}"}, value_method: lambda { |column| "#{column[:id]}"}
+  
+  = f.submit "Send", class: 'btn btn-primary btn-lg tablebutton'
+
+
+

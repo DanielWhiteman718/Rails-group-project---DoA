@@ -1,0 +1,25 @@
+-# frozen_string_literal: true
+.modal-dialog
+  .modal-content
+    = simple_form_for(@user, remote: true) do |f|
+
+      .modal-header
+        %h4.modal-title Edit User
+        %button.close{ type: :button, data: { dismiss: :modal } }
+          %span &times;
+      .modal-body
+        - collection_roles = [[User.role_strings[User.acad_id], User.acad_id.to_s], [User.role_strings[User.admin_id], User.admin_id.to_s], [User.role_strings[User.tech_id], User.tech_id.to_s]]
+
+        = f.input :email, as: :string, label: 'Email Address'
+        = f.input :display_name, as: :string, label: 'Display Name'
+        = f.input :role, as: :select, collection: collection_roles, include_blank: false, input_html: {class: 'role'}, label: 'Role'
+
+        - if current_user.super_user
+          - edit = false
+        - else
+          - edit = true
+        = f.input :analyst, as: :boolean, label: 'Analyst? - An analyst will be able to perform analytics', disabled: edit
+        = f.input :super_user, as: :boolean, label: 'Super User? - A super user will have access to every feature', disabled: edit
+
+      .modal-footer
+        = f.button :submit, "Update User", :class => "btn btn-primary btn-sm tablebutton"

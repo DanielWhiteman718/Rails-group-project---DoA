@@ -1,0 +1,22 @@
+.modal-dialog
+    .modal-content
+        .modal-header
+            %h4.modal-title View Table  
+            %button.close{ type: :button, data: { dismiss: :modal } } 
+                %span &times;
+        .modal-body
+            %table#assess-per-lead
+                %thead
+                    %tr
+                        %th MEE Lead
+                        %th Activity
+                    %body
+                        - @MEELeadActivities.each do |user|
+                            - username = user[0]
+                            - user[1].each do |activity|
+                                %tr
+                                    %td #{username}
+                                    %td #{activity.unique_id}
+        .modal-footer         
+            .pull-left           
+                = dismiss_modal_button

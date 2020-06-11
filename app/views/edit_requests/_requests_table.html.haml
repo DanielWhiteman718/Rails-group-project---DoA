@@ -1,0 +1,21 @@
+- if @edit_requests.size != 0
+    %table
+        %thead 
+            %tr
+                %th Date
+                %th Status
+                %th From
+                %th Message
+                %th Outstanding Changes
+                %th 
+        %tbody
+            - @edit_requests.each do |bulk_id, requests|
+                - r = requests.first
+                %tr
+                    %td= r.created_at.to_date
+                    %td= EditRequest.status_strings[EditRequest.bulk_status(requests)]
+                    %td= r.initiator.display_name
+                    %td= r.title
+                    %td= EditRequest.outstanding_requests(requests)
+                    %td= link_to "Show", respond_edit_requests_path(bulk_id: bulk_id), class: 'btn btn-primary btn-sm tablebutton'
+%br

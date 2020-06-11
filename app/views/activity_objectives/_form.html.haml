@@ -1,0 +1,26 @@
+-# -# frozen_string_literal: true
+-# = simple_form_for(@activity_objective) do |f|
+-#   .form-inputs
+-#   = f.association :objective, as: :select, collection: Objective.order(:code), label_method: :display_str, value_method: :id, include_blank: false, input_html: {class: 'select2', style: 'width: 100%'}, label: 'Objective Code'
+-#   = f.input :short_desc, as: :string, label: 'Short Description'
+-#   = f.input :long_desc, as: :text, label: 'Long Description'
+-#   = f.association :programmes, as: :check_boxes, collection: Programme.order(:code), label_method: :code, value_method: :id, include_blank: false, label: 'Degree Programmes'
+
+-#   .form-actions
+-#     = f.button :submit
+
+-# frozen_string_literal: true
+.modal-dialog
+  .modal-content
+    = simple_form_for(@activity_objective, remote: true) do |f|
+      .modal-header
+        %h4.modal-title New Outcome
+        %button.close{ type: :button, data: { dismiss: :modal } }
+          %span &times;
+      .modal-body
+        = f.association :objective, as: :select, collection: Objective.order(:code), label_method: :display_str, value_method: :id, include_blank: false, input_html: {class: 'select2', style: 'width: 100%'}, label: 'Outcome Code'
+        = f.input :short_desc, as: :string, label: 'Short Description'
+        = f.input :long_desc, as: :text, label: 'Long Description'
+        = f.association :programme, as: :select, collection: Programme.order(:code), label_method: :code, value_method: :id, include_blank: false, input_html: {class: 'select2', style: 'width: 100%'}, label: 'Degree Programme'
+      .modal-footer
+        = f.button :submit, :class => "btn btn-primary btn-sm tablebutton"

@@ -1,0 +1,19 @@
+%h1.tableheader Analytics
+.row
+    .col-6
+        = link_to 'Activities per Technician', view_analytics_path, class: 'ajax-modal btn btn-primary btn-lg tablebutton', style: "width: 100%"
+    .col-6
+        = link_to 'Contact Hours per MEE Lead', view2_analytics_path, class: 'ajax-modal btn btn-primary btn-lg tablebutton', style: "width: 100%"
+    .col-6
+        = link_to 'Activities per MEE Lead', view3_analytics_path, class: 'ajax-modal btn btn-primary btn-lg tablebutton', style: "width: 100%"
+    .col-6
+        = link_to 'Activities/Assessments for each MEE Lead', view4_analytics_path, class: 'ajax-modal btn btn-primary btn-lg tablebutton', style: "width: 100%"
+    .col-6
+        = link_to 'Contact Hours per Theme (By semester)', view5_analytics_path, class: 'ajax-modal btn btn-primary btn-lg tablebutton', style: "width: 100%"
+    .col-6
+        = link_to 'Total Setup Time per Technician (By Semester).', view8_analytics_path, class: 'ajax-modal btn btn-primary btn-lg tablebutton', style: "width: 100%"
+    .col-6
+        = link_to 'Sum of the Durations of Activities per Degree Programme (By Semester)', view6_analytics_path, class: 'ajax-modal btn btn-primary btn-lg tablebutton', style: "width: 100%"
+    .col-6
+        = link_to 'Total Setup Time per Theme (By Semester).', view7_analytics_path, class: 'ajax-modal btn btn-primary btn-lg tablebutton', style: "width: 100%"
+                

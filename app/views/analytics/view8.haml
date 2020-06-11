@@ -1,0 +1,27 @@
+.modal-dialog
+    .modal-content
+        .modal-header
+            %h4.modal-title View Table  
+            %button.close{ type: :button, data: { dismiss: :modal } } 
+                %span &times;
+        .modal-body
+            %table#setup-per-tech
+                %thead
+                    %tr
+                        %th Technician
+                        %th Semester
+                        %th Total Setup Time
+                    %body
+                        - @SetupTimeTechnicianA.each do |time|
+                            %tr
+                                %td #{time[0]}
+                                %td Autumn
+                                %td #{time[1]}
+                        - @SetupTimeTechnicianS.each do |time|
+                            %tr
+                                %td #{time[0]}
+                                %td Spring
+                                %td #{time[1]}
+        .modal-footer         
+            .pull-left           
+                = dismiss_modal_button

@@ -1,0 +1,139 @@
+-# Used for tick/untick all
+:javascript
+    function selectAll(){
+        $(':checkbox').each(function() {
+           this.checked = true;                        
+        });
+    }
+    function deselectAll(){
+        $(':checkbox').each(function() {
+           this.checked = false;                        
+        });
+    }
+    function clearTheme(){
+        $('#search_fils_theme').val(null).trigger('change');
+    }
+    function clearMod(){
+        $('#search_fils_uni_module').val(null).trigger('change');
+    }
+    function clearStaff(){
+        $('#search_fils_staff_member').val(null).trigger('change');
+    }
+    function clearLevel(){
+        $('#search_fils_level').val(null).trigger('change');
+    }
+    function clearSemester(){
+        $('#search_fils_semester').val(null).trigger('change');
+    }
+    function clearProgramme(){
+        $('#search_fils_programme').val(null).trigger('change');
+    }
+    function clearSameAsLast(){
+        $('#search_fils_same_last_year').val(null).trigger('change');
+    }
+    function clearChecked(){
+        $('#search_fils_checked').val(null).trigger('change');
+    }
+    function clearAll(){
+        clearTheme();
+        clearMod();
+        clearStaff();
+        clearLevel();
+        clearSemester();
+        clearProgramme();
+        clearSameAsLast();
+        clearChecked();
+    }
+
+.modal-header
+    %h4.modal-title Filter
+    %button.close{ type: :button, data: { dismiss: :modal } }
+        %span &times;
+
+.modal-body
+    - collection = %w(Unique_ID Experiment_Name Experiment_Name_Abbreviated Current_Module_Code Level Semester TODO:_Degree_Programme MEE_Lead Module_Lead)
+    - collection_users = User.order(:email)
+    - collection_themes = Theme.order(:code)
+    - collection_modules = UniModule.order(:code)
+    - collection_degree_progs = Programme.order(:code)
+    - collection_mod_levels = %w(0 1 2 3 4 5 6)
+    - collection_semester = Dropdown.where(drop_down: 'semester').pluck(:value, :id)
+    - collection_programmes = Programme.order(:code).pluck(:code, :id)
+
+    = simple_form_for :search, url: activities_path, method: :get do |f|
+        
+        %h2.tableheader Columns Shown
+        .row
+            = f.fields_for :cols do |ff|
+                - @columns.each do |col|
+                    .col-6
+                        - if col[1] == "true"
+                            = ff.input col[0], as: :boolean, label: col[0].to_s.humanize.capitalize, checked_value: "true", unchecked_value: "false", input_html: {checked: true}
+                        - elsif col[1] == "false"
+                            = ff.input col[0], as: :boolean, label: col[0].to_s.humanize.capitalize, checked_value: "true", unchecked_value: "false", input_html: {checked: false}
+            .col-6
+                %a{:href => "#", :onclick => "selectAll()", class: 'sameline btn btn-primary btn-sm tablebutton'} Select All
+                %a{:href => "#", :onclick => "deselectAll()", class: 'sameline btn btn-primary btn-sm tablebutton'} Deselect All 
+
+        %h2.tableheader Filter By Attributes  
+        .row
+            = f.fields_for :fils do |ff|
+                .col-10
+                    = ff.hidden_field :name, value: @filters[0][1]
+                    %p Theme
+                    = ff.input :theme, as: :select, input_html: {class: 'select2'}, collection: collection_themes, label_method: :code, value_method: :id, include_blank: true, label: false, selected: @filters[1][1]
+                .col-2
+                    %a{:href => "#", :onclick => "clearTheme()", class: 'clear btn btn-primary btn-sm tablebutton', style: 'margin: 2.5rem 0 0 0'} Clear
+                .col-10  
+                    %p Module
+                    = ff.input :uni_module, as: :select, input_html: {class: 'select2'}, collection: collection_modules, label_method: :code, value_method: :id, include_blank: true, label: false, selected: @filters[2][1]
+                .col-2
+                    %a{:href => "#", :onclick => "clearMod()", class: 'clear btn btn-primary btn-sm tablebutton', style: 'margin: 2.5rem 0 0 0'} Clear
+                .col-10  
+                    %p Staff Member
+                    = ff.input :staff_member, as: :select, input_html: {class: 'select2'}, collection: collection_users, label_method: :display_name, value_method: :id, include_blank: true, label: false, selected: @filters[3][1] 
+                .col-2
+                    %a{:href => "#", :onclick => "clearStaff()", class: 'clear btn btn-primary btn-sm tablebutton', style: 'margin: 2.5rem 0 0 0'} Clear
+                .col-10
+                    %p Level
+                    = ff.input :level, as: :select, input_html: {class: 'select2'}, collection: collection_mod_levels, include_blank: true, label: false, selected: @filters[4][1]
+                .col-2
+                    %a{:href => "#", :onclick => "clearLevel()", class: 'clear btn btn-primary btn-sm tablebutton', style: 'margin: 2.5rem 0 0 0'} Clear
+                .col-10
+                    %p Semester
+                    = ff.input :semester, as: :select, input_html: {class: 'select2'}, collection: collection_semester, include_blank: true, label: false, selected: @filters[5][1]
+                .col-2
+                    %a{:href => "#", :onclick => "clearSemester()", class: 'clear btn btn-primary btn-sm tablebutton', style: 'margin: 2.5rem 0 0 0'} Clear
+                .col-10
+                    %p Programme
+                    = ff.input :programme, as: :select, input_html: {class: 'select2'}, collection: collection_programmes, include_blank: true, label: false, selected: @filters[6][1]
+                .col-2
+                    %a{:href => "#", :onclick => "clearProgramme()", class: 'clear btn btn-primary btn-sm tablebutton', style: 'margin: 2.5rem 0 0 0'} Clear
+                .col-10
+                    %p Same As Last Year
+                    = ff.input :same_last_year, as: :select, input_html: {class: 'select2'}, collection: [['1', 'True'], ['0', 'False']], label_method: :second, value_method: :first, include_blank: true, label: false, selected: @filters[7][1]
+                .col-2
+                    %a{:href => "#", :onclick => "clearSameAsLast()", class: 'clear btn btn-primary btn-sm tablebutton', style: 'margin: 2.5rem 0 0 0'} Clear
+                .col-10
+                    %p Checked On Timetable
+                    = ff.input :checked, as: :select, input_html: {class: 'select2'}, collection: [['1', 'True'], ['0', 'False']], label_method: :second, value_method: :first, include_blank: true, label: false, selected: @filters[8][1]
+                .col-2
+                    %a{:href => "#", :onclick => "clearChecked()", class: 'clear btn btn-primary btn-sm tablebutton', style: 'margin: 2.5rem 0 0 0'} Clear
+                
+                    -# - if @filters[7][1] == "true"
+                    -#     = ff.input :same_last_year, as: :boolean, label: false, checked_value: "true", unchecked_value: "false", input_html: {checked: true}
+                    -# - elsif @filters[7][1] == "false" || @filters[7][1].blank?
+                    -#     = ff.input :same_last_year, as: :boolean, label: false, checked_value: "true", unchecked_value: "false", input_html: {checked: false}
+                    -# %br
+                -# .col-6
+                -#     %p Checked On Timetable 
+                -#     - if @filters[8][1] == "true"
+                -#         = ff.input :checked, as: :boolean, label: false, checked_value: "true", unchecked_value: "false", input_html: {checked: true}
+                -#     - elsif @filters[8][1] == "false" || @filters[8][1].blank?
+                -#         = ff.input :checked, as: :boolean, label: false, checked_value: "true", unchecked_value: "false", input_html: {checked: false}
+                -#     %br    
+        .row
+            .col-6
+                %a{:href => "#", :onclick => "clearAll()", class: 'clear btn btn-primary btn-lg tablebutton', style: "width: 100%"} Clear All
+            .col-6
+                = f.submit 'Update', class: 'btn btn-primary btn-lg tablebutton', style: "width: 100%"

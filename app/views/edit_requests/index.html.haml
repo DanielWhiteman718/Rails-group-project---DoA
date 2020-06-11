@@ -1,0 +1,38 @@
+%p.tableheader
+  Welcome to the Directory of Activities (DOA) for Multidisciplinary Engineering Education. Below you can view all of your edit requests and respond to them.
+  To view activities and settings, please use the links in the sidebar.
+
+%h1.tableheader Edit Requests
+%p.tableheader If someone has sent you an edit request for an activity, you will find it below. You can then respond to this edit request.
+%h3.tableheader Requests Summary
+%table
+  %thead
+    %tr
+      %th New
+      %th Outstanding
+      %th Completed
+    
+  %tbody
+    %tr
+      %td= @new
+      %td= @outstanding
+      %td= @completed
+      
+%br
+
+%h3.tableheader Request Details
+.actbuttonwrapper
+  %td= link_to "New", edit_requests_path(status: 0), class: 'btn btn-primary btn-lg tablebutton'
+  %td= link_to "Outstanding", edit_requests_path(status: 1), class: 'btn btn-primary btn-lg tablebutton'
+  %td= link_to "Completed", edit_requests_path(status: 2), class: 'btn btn-primary btn-lg tablebutton'
+  %td= link_to "All", edit_requests_path(status: [0, 1, 2]), class: 'btn btn-primary btn-lg tablebutton'
+
+#page-summary
+  = page_entries_info @edit_requests, model: 'request'
+#page-link1
+  = will_paginate @edit_requests
+#requests-table
+  = render 'requests_table'
+%br
+#page-link2
+  = will_paginate @edit_requests

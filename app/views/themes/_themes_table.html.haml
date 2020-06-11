@@ -1,0 +1,16 @@
+- if @themes.size != 0
+    %table
+        %thead
+            %tr
+                %th Theme Code
+                %th
+                %th
+                %th
+
+        %tbody
+            - @themes.each do |theme|
+                %tr
+                    %td= theme.code
+                    %td= link_to 'Edit', edit_theme_path(theme), class: 'btn btn-primary btn-sm tablebutton ajax-modal'
+                    %td= link_to 'Remove', theme, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger btn-sm destroybutton"
+                    %td= link_to "Audit Log", audit_theme_path(theme), :class => "ajax-modal btn btn-primary btn-sm tablebutton"

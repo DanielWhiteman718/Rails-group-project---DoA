@@ -1,0 +1,25 @@
+- if @uni_modules.size != 0
+    %table
+        %thead
+            %tr
+                %th Module Code
+                %th Name
+                %th Module Lead
+                %th Credits
+                %th Level
+                %th Semester
+                %th
+                %th
+                %th
+        %tbody
+        - @uni_modules.each do |uni_module|
+            %tr
+                %td= uni_module.code
+                %td= uni_module.name
+                %td= User.where(id: uni_module.user_id).first.display_name
+                %td= uni_module.credits
+                %td= uni_module.level
+                %td= uni_module.semester.value
+                %td= link_to 'Edit', edit_uni_module_path(uni_module), class: 'btn btn-primary btn-sm tablebutton ajax-modal'
+                %td= link_to 'Remove', uni_module, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger btn-sm destroybutton"
+                %td= link_to "Audit Log", audit_uni_module_path(uni_module), :class => "ajax-modal btn btn-primary btn-sm tablebutton"

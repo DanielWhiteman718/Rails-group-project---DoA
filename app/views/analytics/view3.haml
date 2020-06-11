@@ -1,0 +1,20 @@
+.modal-dialog
+    .modal-content
+        .modal-header
+            %h4.modal-title View Table  
+            %button.close{ type: :button, data: { dismiss: :modal } } 
+                %span &times;
+        .modal-body
+            %table#acts-per-lead
+                %thead
+                    %tr
+                        %th MEE Lead
+                        %th Number of Activities
+                    %body
+                        - @MEELeadActivitiesCount.each do |count|
+                            %tr
+                                %td #{count[0]}
+                                %td #{count[1]}
+        .modal-footer         
+            .pull-left           
+                = dismiss_modal_button

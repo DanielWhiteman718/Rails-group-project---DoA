@@ -1,0 +1,18 @@
+%h1.tableheader Learning Objectives
+
+.objbuttonwrapper
+  = link_to "Back", :settings, class: "sameline btn btn-primary btn-lg tablebutton"
+  = link_to 'New Learning Objective', new_activity_objective_path, class: 'sameline btn btn-primary btn-lg newbutton ajax-modal'
+
+= simple_form_for :search, url: activity_objectives_path, method: :get, remote: true do |f|
+  %p.tableheaderleft Search by programme
+  .row
+    .col-sm-8
+      = f.input :programme, as: :select, collection: Programme.order(:code), input_html: {class: 'select2', style: "width: 100%"}, include_blank: true, selected: @programme, label: false, label_method: :code, value_method: :id
+    .col-sm-2
+      = f.submit 'Search', class: 'btn btn-primary btn-md tablebutton', style: "width: 100%"
+    .col-sm-2
+      = link_to 'Reset', activity_objectives_url, class: 'btn btn-primary btn-md tablebutton', style: "width: 100%"
+
+#objectives-table
+  = render 'activity_objectives_table'

@@ -1,0 +1,172 @@
+-# frozen_string_literal: true
+
+= javascript_include_tag "activities.coffee"
+
+= hidden_field_tag :authenticity_token, form_authenticity_token
+
+
+:javascript
+  $(document).ready(function() {
+    $('#objective')
+      .on('cocoon:after-insert', function() {
+        $('.select2').select2();
+      });
+
+    $('#gta')
+      .on('cocoon:after-insert', function() {
+        $('.select2').select2();
+      });
+  });
+
+.modal-dialog.modal-xl
+  
+  .modal-content
+
+    = simple_form_for(@activity, remote: true) do |f|
+
+      .modal-header
+        %h4.modal-title Activity
+        %button.close{ type: :button, data: { dismiss: :modal } }
+          %span &times;
+
+      .modal-body
+
+        .row.align-items-center
+          - # If editing the activity, and not the MEE lead, you must use an edit request
+          - if @form_type == "displaying"
+            .col-md-3
+              %p You can only view this activity
+          - elsif @form_type != "creating" && (@activity.user_id != current_user.id && @activity.uni_module.user_id != current_user.id && @activity.activity_tech.tech_lead_id != current_user.id)
+            .col-md-3
+              = f.button :submit, class: "btn btn-primary btn-lg tablebutton", style: "width: 100%", disabled: true
+            .col-md-5
+              %p.activity-p You are not authorised for #{@form_type} this activity, please create an edit request instead
+          - else
+            .col-md-3
+              = f.button :submit, class: "btn btn-primary btn-lg tablebutton", style: "width: 100%"
+            .col-md-5
+              %p.activity-p Please complete all tabs before #{@form_type} the activity
+        %br
+        
+        = render 'errors'
+
+        - collection_users = User.order(:email)
+        - collection_programmes = Programme.order(:code)
+
+        -# Turns the form into tabbed panes
+        -# Headings/tabbed part
+        %ul#myTab.nav.nav-tabs{:role => "tablist"}
+          %li.nav-item
+            %a#lab_info-tab.nav-link.active{"aria-controls" => "lab_info", "aria-selected" => "false", "data-toggle" => "tab", :href => "#lab_info", :role => "tab"} Lab Information
+          %li.nav-item
+            %a#teaching-tab.nav-link{"aria-controls" => "teaching", "aria-selected" => "false", "data-toggle" => "tab", :href => "#teaching", :role => "tab"} Teaching
+          %li.nav-item
+            %a#assessment-tab.nav-link{"aria-controls" => "assessment", "aria-selected" => "true", "data-toggle" => "tab", :href => "#assessment", :role => "tab"} Assessment
+          %li.nav-item
+            %a#gta_info-tab.nav-link{"aria-controls" => "gta_info", "aria-selected" => "true", "data-toggle" => "tab", :href => "#gta_info", :role => "tab"} GTA Information
+          %li.nav-item
+            %a#level_descriptors-tab.nav-link{"aria-controls" => "level_descriptors", "aria-selected" => "true", "data-toggle" => "tab", :href => "#level_descriptors", :role => "tab"} Learning Outcomes
+          %li.nav-item
+            %a#technical-tab.nav-link{"aria-controls" => "technical", "aria-selected" => "true", "data-toggle" => "tab", :href => "#technical", :role => "tab"} Technical
+          %li.nav-item
+            %a#timetabling-tab.nav-link{"aria-controls" => "timetabling", "aria-selected" => "true", "data-toggle" => "tab", :href => "#timetabling", :role => "tab"} Timetabling
+          
+        -# Contents of the form
+        #myTabContent.tab-content
+          #lab_info.tab-pane.fade.active.show{"aria-labelledby" => "lab_info-tab", :role => "tabpanel"}
+            %h3 Lab Information
+            = f.association :theme, as: :select, collection: Theme.order(:code), label_method: :code, value_method: :id, input_html: { class: 'theme', disabled: @edit[:theme] }, include_blank: false, label: 'Theme'
+            = f.input :code, as: :string, label: 'Unique Code', disabled: @edit[:code]
+            = f.input :name, as: :string, label: 'Experiment Name', disabled: @edit[:name]
+            = f.association :user, as: :select, collection: collection_users, label_method: :display_name, value_method: :id, input_html: {class: 'select2', style: 'width: 100%',  disabled: @edit[:mee_lead]}, include_blank: false, label: 'MEE Lead'
+            
+            = f.association :programmes, as: :check_boxes, collection: collection_programmes, label_method: :code, value_method: :id, input_html: {class: 'programmes', disabled: @edit[:programmes]}, include_blank: false, label: 'Degree Programmes'
+            = f.input :notes, as: :text, label: 'General notes', disabled: @edit[:notes]
+
+          #teaching.tab-pane.fade{"aria-labelledby" => "teaching-tab", :role => "tabpanel"}
+            %h3 Teaching
+            = f.association :uni_module, as: :select, collection: UniModule.order(:code), label_method: :code, value_method: :id, input_html: { class: 'select2', style: 'width: 100%', id: 'uni_module', disabled: @edit[:uni_module]}, include_blank: false, label: 'Module'
+            -# Leave inside tag, renders module fields
+            #uni_module_form
+              = render 'module_fields'
+            = f.simple_fields_for :activity_teaching do |teach|
+              - collection_priority = Dropdown.where(drop_down: 'resit')
+              = teach.association :user, as: :select, collection: collection_users, label_method: :display_name, value_method: :id, input_html: {class: 'select2', style: 'width: 100%',  disabled: @edit[:academic_understudy]}, include_blank: false, label: 'Understudy Email Address'
+              = teach.input :mole_pub_link, as: :string, label: 'MOLE Public Link', disabled: @edit[:mole]
+              = teach.input :g_drive_link, as: :string, label: 'G Drive Link', disabled: @edit[:g_drive]
+              = teach.association :resit_priority, as: :select, collection: collection_priority, label_method: :value, value_method: :id, input_html: { class: 'resit_priority' }, include_blank: false, label: 'Resit Priority', disabled: @edit[:resit]
+
+          #timetabling.tab-pane.fade{"aria-labelledby" => "timetabling-tab", :role => "tabpanel"}
+            %h3 Timetabling
+            = f.simple_fields_for :activity_timetable do |time|
+              - collection_rooms = Room.order(:code)
+              = time.input :same_as_prev_year, as: :boolean, label: 'Same as Last Year?', disabled: @edit[:same_as_prev]
+              = time.input :checked_on_timetable, as: :boolean, label: 'Checked on Timetable?', disabled: @edit[:checked_time]
+              = time.input :min_week_num, as: :string, label: 'Minimum Week Number', disabled: @edit[:min_week]
+              = time.input :max_week_num, as: :string, label: 'Maximum Week Number', disabled: @edit[:max_week]
+              = time.input :capacity, as: :string, label: 'Capacity', disabled: @edit[:capacity]
+              = time.association :pref_room, as: :radio_buttons, collection: collection_rooms, label_method: :display_str, value_method: :id, include_blank: false, label: 'Preferred Room', disabled: @edit[:pref_room]
+              = time.association :rooms, as: :check_boxes, collection: collection_rooms, label_method: :display_str, value_method: :id, include_blank: false, label: 'Other Rooms', disabled: @edit[:other_rooms]
+              = time.input :duration, as: :string, label: 'Duration (minutes)', disabled: @edit[:duration]
+              = time.input :setup_time, as: :string, label: 'Setup Time (minutes)', disabled: @edit[:setup]
+              = time.input :series_setup_time, as: :string, label: 'Series Setup Time (minutes)', disabled: @edit[:series_setup]
+              = time.input :takedown_time, as: :string, label: 'Takedown Time (minutes)', disabled: @edit[:takedown]
+              = time.input :kit_prep_time, as: :string, label: 'Kit Preparation Time (minutes)', disabled: @edit[:kit_prep]
+              = time.input :notes, as: :text, label: 'Timetabling Notes', disabled: @edit[:time_notes]
+
+          #gta_info.tab-pane.fade{"aria-labelledby" => "gta_info-tab", :role => "tabpanel"}
+            %h3 GTA Information
+            = f.simple_fields_for :activity_gta do |gta|
+              = gta.input :staff_ratio, as: :string, label: 'GTA to Student Ratio', disabled: @edit[:ratio]
+              = gta.input :marking_time, as: :string, label: 'Marking Time (minutes per student)', disabled: @edit[:marking_time]
+              = gta.input :job_desc, as: :text, label: 'Job Description', disabled: @edit[:job_desc]
+              = gta.input :jobshop_desc, as: :text, label: 'Jobshop Entry', disabled: @edit[:jobshop_desc]
+              = gta.input :criteria, as: :text, label: 'GTA Skills Required', disabled: @edit[:criteria]
+
+              %h4 GTA Invites
+              #gta_invite
+                = gta.simple_fields_for :gta_invites do |builder|
+                  = render 'gta_invite_fields', f: builder   
+                .links
+                  -# If editing gta invites is allowed, show the add link
+                  - if !@edit[:gta_invite]    
+                    #gta     
+                      = link_to_add_association "Add GTA Invite", gta, :gta_invites, class: "btn btn-primary btn-sm tablebutton"
+
+          #assessment.tab-pane.fade{"aria-labelledby" => "assessment-tab", :role => "tabpanel"}
+            %h3 Assessment
+            = f.simple_fields_for :activity_assess do |assess|
+              - collection_assessment = Dropdown.where(drop_down: 'assessment')
+              - collection_post = Dropdown.where(drop_down: 'post_lab')
+              = assess.input :num_assess, as: :string, label: 'Number of assessments', disabled: @edit[:num_assess]
+              = assess.association :pre_assess_type, as: :select, collection: collection_assessment, label_method: :value, value_method: :id, input_html: { class: 'pre_assess_type', disabled: @edit[:pre_assess]}, include_blank: false, label: 'Pre-assessment type'
+              = assess.association :during_assess_type, as: :select, collection: collection_assessment, label_method: :value, value_method: :id, input_html: { class: 'during_assess_type', disabled: @edit[:during_assess] }, include_blank: false, label: 'During-assessment type'
+              = assess.association :post_assess_type, as: :select, collection: collection_assessment, label_method: :value, value_method: :id, input_html: { class: 'post_assess_type', disabled: @edit[:post_assess] }, include_blank: false, label: 'Post-assessment type'
+              = assess.association :post_lab_type, as: :select, collection: collection_post, label_method: :value, value_method: :id, input_html: {class: 'post_lab_type', disabled: @edit[:post_lab]}, include_blank: false, label: 'Post-lab type'
+              = assess.input :assess_weight, as: :string, label: 'Assessment weight', disabled: @edit[:assess_weight]
+              = assess.input :notes, as: :text, label: 'Assessment notes', disabled: @edit[:assess_notes]
+              
+          #technical.tab-pane.fade{"aria-labelledby" => "technical-tab", :role => "tabpanel"}
+            %h3 Technical
+            = f.simple_fields_for :activity_tech do |tech|
+              - min_year = Date.today.year - 5
+              - max_year = Date.today.year + 5
+              = tech.association :tech_lead, as: :select, collection: collection_users, label_method: :display_name, value_method: :id, input_html: {class: 'select2', style: 'width: 100%', disabled: @edit[:tech_lead]}, include_blank: false, label: 'Technical Lead Email Address'
+              = tech.association :tech_ustudy, as: :select, collection: collection_users, label_method: :display_name, value_method: :id, input_html: {class: 'select2', style: 'width: 100%', disabled: @edit[:tech_ustudy]}, include_blank: false, label: 'Technical Understudy Email Address'
+              = tech.input :last_risk_assess, start_year: min_year, end_year: max_year, label: 'Last Risk Assessment Date', disabled: @edit[:last_risk]
+              = tech.input :next_risk_assess, start_year: min_year, end_year: max_year, label: 'Next Risk Assessment Date', disabled: @edit[:next_risk]
+              = tech.input :equip_needed, as: :text, label: 'Equipment Needed', disabled: @edit[:equipment]
+              = tech.input :cost_per_student, as: :string, label: 'Cost Per Student (£)', disabled: @edit[:cost_per_student]
+
+          #level_descriptors.tab-pane.fade{"aria-labelledby" => "level_descriptors-tab", :role => "tabpanel"}
+            %h3 Learning Outcomes
+            #objectives
+              = f.simple_fields_for :objective_linkers do |obj_link|
+                = render 'objective_linker_fields', f: obj_link
+              .links
+                -# If editing objectives is allowed, show the add link
+                - if !@edit[:level_desc]  
+                  #objective        
+                    = link_to_add_association "Add Learning Outcome", f, :objective_linkers, class: "btn btn-primary btn-sm tablebutton"
+
+

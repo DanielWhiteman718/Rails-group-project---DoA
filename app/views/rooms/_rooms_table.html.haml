@@ -1,0 +1,16 @@
+- if @rooms.size != 0
+    %table
+        %thead
+            %th Room Code
+            %th Room Name
+            %th
+            %th
+            %th
+        %tbody
+            - @rooms.each do |room|
+                %tr
+                    %td= room.code
+                    %td= room.name
+                    %td= link_to 'Edit', edit_room_path(room), class: 'btn btn-primary btn-sm tablebutton ajax-modal'
+                    %td= link_to 'Remove', room, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger btn-sm destroybutton"
+                    %td= link_to "Audit Log", audit_room_path(room), :class => "ajax-modal btn btn-primary btn-sm tablebutton"

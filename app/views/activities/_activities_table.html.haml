@@ -1,0 +1,33 @@
+%p.center Current Filters: #{@current_filters}
+#page-summary
+    = page_entries_info @activities, model: 'matching activity'
+#page-link1
+    = will_paginate @activities
+- if @activities.size != 0
+    %table
+        %thead
+            %tr
+                - @columns.each do |col|
+                    - if col[1] == "true"
+                        %th #{col[0].to_s.capitalize.humanize}
+                %th
+                %th
+                %th
+                %th
+
+            %tbody#doa-body
+                - @activities.each do |a|
+                    %tr
+                        - @columns.each do |col|
+                            - if col[1] == "true"
+                                %td #{a.column_value(col[0])}
+                            
+                        -#%td= link_to 'Full Details', a, class: 'ajax-modal'
+                        %td= link_to 'Full Details', edit_activity_path(a), :class => "ajax-modal btn btn-primary btn-sm tablebutton"
+                        %td= link_to 'Request Edit', crerequest_activity_path(a), :class => "ajax-modal btn btn-primary btn-sm tablebutton"
+                        %td= link_to 'Remove', a, method: :delete, data: { confirm: 'Are you sure?' }, :class => " btn btn-danger btn-sm destroybutton"
+                        %td= link_to "Audit Log", audit_activity_path(a), :class => "ajax-modal btn btn-primary btn-sm tablebutton"
+
+%br
+#page-link2
+    = will_paginate @activities

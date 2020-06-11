@@ -1,0 +1,20 @@
+.modal-dialog
+    .modal-content
+        .modal-header
+            %h4.modal-title View Table  
+            %button.close{ type: :button, data: { dismiss: :modal } } 
+                %span &times;
+        .modal-body
+            %table#hours-per-programme
+                %thead
+                    %tr
+                        %th Degree Programme
+                        %th Sum of Activity Durations
+                    %body
+                        - @HoursPerCohort.each do |hours|
+                            %tr
+                                %td #{hours[0]}
+                                %td #{hours[1]}
+        .modal-footer         
+            .pull-left           
+                = dismiss_modal_button

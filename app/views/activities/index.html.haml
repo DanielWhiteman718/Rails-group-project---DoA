@@ -1,0 +1,18 @@
+%h1.tableheader Activities
+%p.tableheader
+  This is a list of all activities in the Directory of Activities, ordered by ID.
+  Additional search filters can be added using Add More Filters. Creating a new activity 
+  or updating an activity will reset the filters. Exports will take a few minutes to download.
+.actbuttonwrapper#actbuttonwrapper
+  = render 'new_csv_buttons'
+
+%h3.tableheader Search
+#search
+  = render 'search'
+
+
+%h3.tableheader Filtered Activities
+#activities-table
+  = render 'activities_table'
+
+%br

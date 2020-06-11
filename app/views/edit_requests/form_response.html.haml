@@ -1,0 +1,14 @@
+- case request.column.input_type
+    - when "check"
+        = f.input :new_val, as: :boolean, :label => "New value"
+    - when "drop down"
+        -# Fills the dropdown with the correct values
+        - case request.column.db_name 
+            - when "last_risk_assess", "next_risk_assess"
+                = f.input :new_val, as: :date, html5: true, :label => "New value"
+            - else 
+                = f.input :new_val, as: :select, collection: collection, label_method: :second, value_method: :first, :label => "New value"
+    - when "text"
+        = f.input :new_val, as: :string, :label => "New value"
+= hidden_field_tag(:bulk_id, @bulk_id)
+= hidden_field_tag(:req_id, @req_id)

@@ -1,0 +1,104 @@
+// Place all the styles related to the Activities controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+@import 'variables';
+
+table {
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: none;
+  height: 60px;
+  margin: 0 auto;
+  width: auto;
+}
+
+th, td {
+padding: 15px;
+text-align: center;
+}
+
+th {
+background-color: $maincolor;
+color: white;
+border: 1px solid #005596;
+}
+
+tr:hover {
+background-color: #f7f7f754;
+}
+
+tr {
+background-color: #fff;
+}
+
+td {
+border: 1px solid $greycolor;
+}
+
+.tableheader {
+text-align: center;
+padding-bottom: 10px;
+font-weight: 200;
+}
+
+.tableheaderleft {
+  text-align: left;
+  font-weight: 200;
+}
+
+.loginheader {
+  text-align: center;
+  font-weight: 200;
+}
+
+
+.dropdowns {
+  width: 500px;
+}
+
+.newbutton {
+  margin-left: 52px;
+  margin-bottom: 10px;
+  background-color: white;
+  color: $maincolor;
+  transition: 0.5s;
+}
+
+.input .name {
+
+}
+
+.tablebutton {
+  background-color: white;
+  color: $maincolor;
+  transition: 0.5s;
+}
+
+.destroybutton {
+  background-color: white;
+  color: #c82333;
+  transition: 0.5s;
+}
+
+.dropnew {
+  margin-left: 19px;
+}
+
+.modal-content {
+  position: absolute;
+}
+
+.modal-xl{
+  width: 1000px;
+}
+
+.modal-body{
+  overflow: hidden;
+}
+
+
+#exportcol {
+  max-width: 14%;
+}

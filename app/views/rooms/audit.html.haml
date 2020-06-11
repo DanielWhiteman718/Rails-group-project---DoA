@@ -1,0 +1,19 @@
+-# frozen_string_literal: true
+.modal-dialog.modal-xl
+  .modal-content
+    .modal-header
+      %h4.modal-title Audit Log
+      %button.close{ type: :button, data: { dismiss: :modal } }
+        %span &times;
+    .modal-body
+    
+      #pagination-summary
+        = page_entries_info @audits, model: 'audit'
+      - if @audits.size != 0
+        #pagination-js1
+          = js_will_paginate @audits, style: "display: block; padding-bottom: 1rem"
+        #audits-table
+          = render 'audits_table'
+        %br
+        #pagination-js2
+          = js_will_paginate @audits, style: "display: block; padding-bottom: 1rem"

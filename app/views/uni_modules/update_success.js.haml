@@ -1,0 +1,5 @@
+$('#modalWindow').modal('hide');
+$("#uni_modules-table").html($('#{j render 'uni_modules_table'}'));
+$("#page-summary").html('#{page_entries_info @uni_modules, model: 'uni module'}');
+$("#page-link1").html('#{will_paginate @uni_modules}');
+$("#page-link2").html('#{will_paginate @uni_modules}');

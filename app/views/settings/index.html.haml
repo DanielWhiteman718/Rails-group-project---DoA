@@ -1,0 +1,34 @@
+%h1.tableheader Settings
+%br
+
+.row
+    .col-3
+        .col-12
+            = link_to "Users", users_path, class: "btn btn-primary btn-lg tablebutton", style: "width: 100%"
+        .col-12
+            = link_to "Degree Programmes", programmes_path, class: "btn btn-primary btn-lg tablebutton", style: "width: 100%"
+        .col-12
+            = link_to "Modules", uni_modules_path, class: "btn btn-primary btn-lg tablebutton", style: "width: 100%"
+        .col-12
+            = link_to "Themes", themes_path, class: "btn btn-primary btn-lg tablebutton", style: "width: 100%"
+    .col-3
+        .col-12
+            = link_to "Rooms", rooms_path, class: "btn btn-primary btn-lg tablebutton", style: "width: 100%"
+        .col-12
+            = link_to "Outcome Codes", objectives_path, class: "btn btn-primary btn-lg tablebutton", style: "width: 100%"
+        .col-12
+            = link_to "Learning Outcomes", activity_objectives_path, class: "btn btn-primary btn-lg tablebutton", style: "width: 100%"
+        .col-12
+            = link_to "Dropdown Options", dropdowns_path, class: "btn btn-primary btn-lg tablebutton", style: "width: 100%"
+    .col-6
+        .card
+            .card-header.custom-card-header
+                User Details
+            .card-body
+                %p Display Name: #{@user.display_name}
+                %p Email: #{@user.email}
+                %p Role: #{User.role_strings[@user.role]}
+                - if @user.analyst?
+                    %p Analyst: Yes
+                - if @user.super_user?
+                    %p Superuser: Yes

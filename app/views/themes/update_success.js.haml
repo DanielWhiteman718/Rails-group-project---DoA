@@ -1,0 +1,5 @@
+$('#modalWindow').modal('hide');
+$("#themes-table").html($('#{j render 'themes_table'}'));
+$("#page-summary").html('#{page_entries_info @themes, model: 'theme'}');
+$("#page-link1").html('#{will_paginate @themes}');
+$("#page-link2").html('#{will_paginate @themes}');

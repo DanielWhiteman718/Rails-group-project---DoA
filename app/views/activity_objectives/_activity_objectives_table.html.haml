@@ -1,0 +1,34 @@
+#page-summary
+    = page_entries_info @activity_objectives, model: 'objective'
+#page-link1
+    = will_paginate @activity_objectives
+  
+
+- if @activity_objectives.size != 0
+    %table
+        %thead
+            %tr
+                %th Outcome Code
+                %th Short Description
+                %th Long Description
+                %th Degree Programme
+                %th
+                %th
+                %th
+
+        %tbody#objectives-table
+
+            - @activity_objectives.each do |activity_objective|
+                %tr
+                    %td= activity_objective.objective.display_str
+                    %td= activity_objective.short_desc
+                    %td= activity_objective.long_desc
+                    %td= activity_objective.programme.code
+                    %td= link_to 'Edit', edit_activity_objective_path(activity_objective), class: 'btn btn-primary btn-sm tablebutton ajax-modal'
+                    %td= link_to 'Remove', activity_objective, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger btn-sm destroybutton"
+                    %td= link_to "Audit Log", audit_activity_objective_path(activity_objective), :class => "ajax-modal btn btn-primary btn-sm tablebutton"
+
+
+%br
+#page-link2
+    = will_paginate @activity_objectives

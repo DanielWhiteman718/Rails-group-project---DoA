@@ -1,0 +1,17 @@
+%h1.tableheader Modules
+
+.modbuttonwrapper
+  = link_to "Back", :settings, class: "sameline btn btn-primary btn-lg tablebutton"
+  = link_to 'New Module', new_uni_module_path, class: 'sameline btn btn-primary btn-lg newbutton ajax-modal'
+%p.tableheader Modules are ordered alphabetically by module code.
+
+#page-summary
+  = page_entries_info @uni_modules, model: 'uni module'
+#page-link1
+  = will_paginate @uni_modules
+  
+#uni_modules-table
+  = render 'uni_modules_table'
+%br
+#page-link2
+  = will_paginate @uni_modules

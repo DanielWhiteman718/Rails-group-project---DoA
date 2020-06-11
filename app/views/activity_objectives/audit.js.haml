@@ -1,0 +1,6 @@
+// to update comments    
+$("#audits-table").html("#{j render 'audits_table'}");
+// to update the pagination links
+$("#pagination-summary").html('#{page_entries_info @audits, model: 'audit'}');
+$("#pagination-js1").html('#{js_will_paginate @audits, style: "display: block; padding-bottom: 1rem"}');
+$("#pagination-js2").html('#{js_will_paginate @audits, style: "display: block; padding-bottom: 1rem"}');

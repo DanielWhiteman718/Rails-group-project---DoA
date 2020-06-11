@@ -1,0 +1,5 @@
+$('#modalWindow').modal('hide');
+$("#users-table").html($('#{j render 'users_table'}'));
+$("#page-summary").html('#{page_entries_info @users, model: 'user'}');
+$("#page-link1").html('#{will_paginate @users}');
+$("#page-link2").html('#{will_paginate @users}');

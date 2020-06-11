@@ -1,0 +1,22 @@
+-# frozen_string_literal: true
+.modal-dialog
+  .modal-content
+    = simple_form_for(@user) do |f|
+
+      .modal-header
+        %h4.modal-title New User
+        %button.close{ type: :button, data: { dismiss: :modal } }
+          %span &times;
+      .modal-body
+        - collection_roles = [[User.role_strings[User.acad_id], User.acad_id.to_s], [User.role_strings[User.admin_id], User.admin_id.to_s], [User.role_strings[User.tech_id], User.tech_id.to_s]]
+
+        = f.input :email, as: :string, label: 'Email Address'
+        = f.input :display_name, as: :string, label: 'Display Name'
+        = f.input :role, as: :select, collection: collection_roles, include_blank: false, input_html: {class: 'role'}, label: 'Role'
+        = f.input :analyst, as: :boolean, label: 'Analyst?'
+        = f.input :super_user, as: :boolean, label: 'Super User?'
+
+      .modal-footer
+        .pull-left
+          = dismiss_modal_button
+        = f.button :submit

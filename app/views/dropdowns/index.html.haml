@@ -1,0 +1,31 @@
+%h1.tableheader Dropdown options
+.dropdownbuttonwrapper
+  = link_to "Back", :settings, class: "btn btn-primary btn-lg tablebutton"
+%p.tableheader
+  Here you can change the options for the dropdown menus. 
+  For example, adding "New semester" to the semester dropdown will allow you to mark a module as in the "New semester".
+.row
+  - @dropdowns.each do |dropdown, options|
+    .col-6
+      %h2.tableheader #{dropdown}
+
+      = link_to ('Add ' + dropdown), new_dropdown_path(drop_down: options.first.drop_down, display_name: options.first.display_name), class: 'btn btn-primary btn-lg newbutton dropnew ajax-modal'
+
+      %table.dropdowns
+        %thead
+          %tr
+            %th Value
+            %th
+            %th
+            %th
+
+        %tbody#dropdowns-table
+          - options.each do |o|
+            %tr
+              %td= o.value
+              %td= link_to 'Edit', edit_dropdown_path(o), class: 'btn btn-primary btn-sm tablebutton ajax-modal'
+              %td= link_to 'Remove', o, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger btn-sm destroybutton"
+              %td= link_to "Audit Log", audit_dropdown_path(o), :class => "ajax-modal btn btn-primary btn-sm tablebutton"
+
+      %br
+%br

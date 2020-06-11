@@ -1,0 +1,24 @@
+-# frozen_string_literal: true
+.modal-dialog
+  .modal-content
+    = simple_form_for(@uni_module) do |f|
+  
+      .modal-header
+        %h4.modal-title Dropdown option
+        %button.close{ type: :button, data: { dismiss: :modal } }
+          %span &times;
+      .modal-body
+        - collection_users = User.order(:display_name).pluck(:display_name).zip(User.order(:display_name).pluck(:id))
+        - collection_sem = Dropdown.where(drop_down: "semester").pluck(:value, :id)
+
+        = f.input :code, as: :string, label: 'Module code'
+        = f.input :name, as: :string, label: 'Name'
+        = f.input :user_id, as: :select, collection: collection_users, include_blank: false, input_html: {class: 'user_id'}, label: 'Module Lead'
+        = f.input :credits, as: :string, label: 'Credits'
+        = f.input :level, as: :string, label: 'Level'
+        = f.input :semester_id, as: :select, collection: collection_sem, include_blank: false, input_ntml: {class: 'semester_id'}, label: 'Semester'
+
+      .modal-footer
+        .pull-left
+          = dismiss_modal_button
+        = f.button :submit

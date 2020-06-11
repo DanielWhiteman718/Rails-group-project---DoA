@@ -1,0 +1,41 @@
+-# frozen_string_literal: true
+
+= javascript_include_tag "activities.coffee"
+
+= hidden_field_tag :authenticity_token, form_authenticity_token
+
+
+:javascript
+  $(document).ready(function() {
+    $('#objective')
+      .on('cocoon:after-insert', function() {
+        $('.select2').select2();
+      });
+
+    $('#gta')
+      .on('cocoon:after-insert', function() {
+        $('.select2').select2();
+      });
+  });
+
+.modal-dialog.modal-xl
+  
+  .modal-content
+    = simple_form_for @edit_request, url: :create_edit_request, remote: false do |f|
+      .modal-header
+        %h4.modal-title Edit Request
+        %button.close{ type: :button, data: { dismiss: :modal } }
+          %span &times;
+      .modal-body
+        .row.align-items-center
+          .col-md-3
+            = f.button :submit, class: "btn btn-primary btn-lg tablebutton", style: "width: 100%"
+        %br
+          = f.hidden_field :activity_id, value: @activity.id
+          = f.hidden_field :initiator_id, value: current_user.id
+          = f.hidden_field :target_id, value: @activity.user_id
+          = f.input :target_id, as: :radio_buttons, collection: [["MEE Lead", @activity.user_id], ["Module Lead", @activity.uni_module.user_id], ["Technical Lead", @activity.activity_tech.tech_lead_id]], label: "User"
+          = f.hidden_field :bulk_id, value: EditRequest.maximum(:bulk_id).next
+          = f.hidden_field :status, value: '0'
+          = f.input :message, as: :string
+          = f.input :column_id, as: :radio_buttons, collection: Column.columns_for_request(Column.all), label_method: lambda { |column| "#{column[:display_name]}"}, value_method: lambda { |column| "#{column[:id]}"}

@@ -1,0 +1,6 @@
+= simple_fields_for(@uni_module) do |f|
+  = f.input :name, as: :string, label: 'Name', disabled: true
+  = f.association :user, as: :select, collection: User.order(:email), label_method: :display_name, value_method: :id, input_html: {class: 'user_id'}, include_blank: false, label: 'Module Lead', disabled: true
+  = f.input :credits, as: :string, label: 'Credits', disabled: true
+  = f.input :level, as: :string, label: 'Level', disabled: true
+  = f.association :semester, as: :select, collection:  Dropdown.where(drop_down: 'semester'), label_method: :value, value_method: :id, input_html: {class: 'semester_id'}, include_blank: false, label: 'Semester', disabled: true

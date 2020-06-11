@@ -1,0 +1,2 @@
+module ActivityObjectivesHelper
+end

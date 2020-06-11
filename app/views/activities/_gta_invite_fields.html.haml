@@ -1,0 +1,6 @@
+.nested-fields
+  = f.association :user, as: :select, collection: User.order(:email), label_method: :email, value_method: :id, include_blank: false, label: 'Invited User', input_html: {class: 'select2', disabled: @edit[:gta_invite], style: 'width: 100%'}
+  = f.hidden_field :_destroy
+  -# If editing gta invites is allowed, show the add link
+  - if !@edit[:gta_invite]
+    = link_to_remove_association "Remove GTA Invite", f, class: "btn btn-danger btn-sm destroybutton"

@@ -1,0 +1,92 @@
+!!!
+%html
+  %head
+    %title MEE - Directory of Activities
+    %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0" }
+    %meta{ :'http-equiv' => 'X-UA-Compatible', content: 'IE=edge' }
+    %meta{:content => "text/html; charset=utf-8", "http-equiv" => "content-type"}
+    = stylesheet_link_tag    "application", media: :all
+    = javascript_include_tag "application"
+    = favicon_link_tag '/favicon.ico'
+    = csrf_meta_tags
+    - if Rails.env.test?
+      :css
+        .modal.fade, .fade {
+          -webkit-transition: none !important;
+          -moz-transition: none !important;
+          -ms-transition: none !important;
+          -o-transition: none !important;
+          transition: none !important;
+        }
+
+  %body{ class: environment_notice_body_class }
+    = render 'layouts/environment_notice'
+    .flash-messages
+      - flash.each do |name, msg|
+        - next unless name == 'alert' || name == 'notice'
+        .alert.fade.in
+          .container
+            - if name == 'notice'
+              = icon('fas', 'check', class: 'flash-success')
+            - else
+              = icon('fas', 'exclamation-triangle', class: 'flash-error')
+            = msg
+            %a{ href: '#', title: 'Hide this message', data: { dismiss: :alert } } Dismiss
+
+    #wrap
+      %header
+        %nav#main-nav.navbar.navbar-custom.navbar-expand-lg.fixed-top
+          .container
+            .navbar-header
+              = link_to :root, class: 'navbar-brand hidden-sm' do
+                %h5.titlestyle Directory of Activities
+            %button.navbar-toggler{ aria: { controls: "navbar-content", expanded: false, label: "Toggle navigation" }, data: { target: "#navbar-content", toggle: "collapse" }, type: "button" }
+              %span.navbar-toggler-icony
+              
+            .collapse.navbar-collapse.navbar-right#navbar-content
+              %ul.nav.navbar-nav
+                - if user_signed_in?
+                  %ul.nav.navbar-nav
+                    %li.nav-item.dropdown
+                      = link_to '#', aria: { haspopup: true, expanded: false }, data: { toggle: :dropdown }, id: 'navbar-user-link', class: 'nav-link dropdown-toggle', role: 'button' do
+                        = icon 'fas', 'user', current_user.display_name
+                        %b.caret
+                      .dropdown-menu{ aria: { labelledby: '#navbar-user-link' } }
+                        = link_to destroy_user_session_path, class: 'dropdown-item', method: :delete, title: "Log out of the system" do
+                          = icon 'fas', 'sign-out-alt', 'Log out'
+    - if user_signed_in?
+      #body-row.row
+        #sidebar-container.sidebar-expanded.d-none.d-md-block.col-2
+          %ul.list-group
+            %a.list-group-item.list-group-item-action{:href => "/", :class => active_class(:root)}
+              %span.fas.fa-home.fa-fw.mr-3.fa-2x.sidebaricon
+              %span Home
+            
+            %a.list-group-item.list-group-item-action{:href => "/activities", :class => active_class(:activities)}
+              %span.fas.fa-search.fa-fw.mr-3.fa-2x.sidebaricon
+              %span Activities
+            
+            %a.list-group-item.list-group-item-action{:href => "/analytics", :class => active_class(:analytics)}
+              %span.fas.fa-chart-bar.fa-fw.mr-3.fa-2x.sidebaricon
+              %span Analytics
+            
+            %a.list-group-item.list-group-item-action{:href => "/settings", :class => active_class(:settings)}
+              %span.fas.fa-cog.fa-fw.mr-3.fa-2x.sidebaricon
+              %span Settings
+            
+            %a.list-group-item.logo
+              %span
+                = image_tag "logos/logo1.png", :class => "logo"
+            %a.list-group-item.logo
+              %span
+                = image_tag "logos/logo2.png", :class => "logo"
+
+    
+    - if !user_signed_in?
+      %main
+        #main-container.container
+          = yield
+    - else
+      %main{style: 'margin-left: 102px;'}
+        #main-container.container
+          = yield

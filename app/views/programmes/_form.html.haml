@@ -1,0 +1,17 @@
+-# frozen_string_literal: true
+.modal-dialog
+  .modal-content
+    = simple_form_for(@programme) do |f|
+  
+      .modal-header
+        %h4.modal-title Dropdown option
+        %button.close{ type: :button, data: { dismiss: :modal } }
+          %span &times;
+      .modal-body
+        = f.input :code, as: :string, label: 'Degree Code'
+        = f.input :name, as: :string, label: 'Degree Name'
+
+      .modal-footer
+        .pull-left
+          = dismiss_modal_button
+        = f.button :submit

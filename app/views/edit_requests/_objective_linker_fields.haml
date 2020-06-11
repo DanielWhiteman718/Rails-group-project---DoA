@@ -1,0 +1,13 @@
+-# .nested-fields.col-4
+-#     = f.association :objective, as: :select, collection: Objective.order(:code), label_method: :display_str, value_method: :id, include_blank: false, label: 'Objective', input_html: {class: 'select2', style: 'width: 100%'}
+-#     = f.input :short_desc, as: :string, label: 'Short Description'
+-#     = f.input :long_desc, as: :text, label: 'Long Description'
+-#     = f.hidden_field :_destroy
+-#     = link_to_remove_association "Remove Objective", f, class: "btn btn-primary btn-sm tablebutton"
+
+
+.nested-fields
+    - collection_programme = Programme.order(:code)
+    = f.input :activity_objective_id, collection: collection_programme, as: :grouped_select, group_method: :activity_objectives, group_label_method: :code, label_method: :display_str, value_method: :id, include_blank: false, input_html: {class: 'select2', style: 'width: 100%'}, label: "Learning Outcome"
+    = f.hidden_field :_destroy
+    = link_to_remove_association "Remove Learning Outcome", f, class: "btn btn-danger btn-sm destroybutton"

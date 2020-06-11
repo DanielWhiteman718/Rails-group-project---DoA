@@ -1,0 +1,16 @@
+%h1.tableheader Rooms
+
+.roombuttonwrapper
+  = link_to "Back", :settings, class: "sameline btn btn-primary btn-lg tablebutton"
+  = link_to 'New Room', new_room_path, class: 'sameline btn btn-primary btn-lg newbutton ajax-modal'
+  
+#page-summary
+  = page_entries_info @rooms, model: 'room'
+#page-link1
+  = will_paginate @rooms
+#rooms-table
+  = render 'rooms_table' 
+%br
+#page-link2
+  = will_paginate @rooms
+

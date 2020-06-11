@@ -1,0 +1,6 @@
+.nested-fields
+    - collection_programme = Programme.order(:code)
+    = f.input :activity_objective_id, collection: collection_programme, as: :grouped_select, group_method: :activity_objectives, group_label_method: :code, label_method: :display_str, value_method: :id, include_blank: false, input_html: {class: 'select2', style: 'width: 100%'}, label: "Learning Outcome"
+    = f.hidden_field :_destroy
+    - if !@edit[:level_desc]
+        = link_to_remove_association "Remove Learning Outcome", f, class: "btn btn-danger btn-sm destroybutton"

@@ -1,0 +1,5 @@
+.nested-fields
+  -#= f.hidden_field :id
+  = f.association :user, as: :select, collection: User.order(:email), label_method: :email, value_method: :id, include_blank: false, label: 'Invited User', input_html: {class: 'select2', style: 'width: 100%'}
+  = f.hidden_field :_destroy
+  = link_to_remove_association "Remove GTA Invite", f, class: "btn btn-danger btn-sm destroybutton"

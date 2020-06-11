@@ -1,0 +1,390 @@
+@import 'variables';
+
+:root {
+  --input-padding-x: 1.5rem;
+  --input-padding-y: 0.75rem;
+}
+
+html,body {
+  padding: 0;
+  margin: auto;
+  height: 100%;
+}
+
+#wrap {
+  position: absolute;
+  height: auto !important;
+  margin: 0 auto -1 * $footer-height;
+  padding: 0 0 $footer-height;
+}
+
+.main {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto; // center align horizontally
+}
+ 
+.navbar-custom{
+  background-color: $maincolor;
+  height: 2rem;
+}
+
+
+.nav-link, .nav-link:hover {
+  color: white;
+}
+
+.navbar-brand, .navbar-brand:hover {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar-collapse {
+  flex-grow: 0;
+}
+
+.row.no-gutter {
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2), 0 0 0 0 rgba(0, 0, 0, 0.2);
+  border-radius: 25px 25px 25px 25px;
+}
+
+.login,
+.image {
+  min-height: 83vh;
+}
+
+.bg-image {
+  background-size: contain;
+  background-position: center;
+  border-radius: 25px 0px 0px 25px;
+  height: 92%;
+  width: 120%;
+}
+
+.login-heading {
+  font-weight: 300;
+}
+
+.btn-primary {
+  border-color: $maincolor;
+  background-color: $maincolor;
+}
+
+.btn-lg {
+  margin: 0.5rem 0;
+}
+
+.btn-login {
+  font-size: 0.9rem;
+  padding: 0.75rem 1rem;
+  border-radius: 2rem;
+  background-color: white;
+  color: $maincolor;
+  transition: 0.5s;
+}
+
+.form-label-group {
+  position: relative;
+  margin-bottom: 1rem;
+  color: $maincolor;
+}
+
+.form-label-group>input,
+.form-label-group>label {
+  padding: var(--input-padding-y) var(--input-padding-x);
+  height: auto;
+  border-radius: 2rem;
+}
+
+.form-label-group>label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  line-height: 1.5;
+  color: #495057;
+  cursor: text;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  transition: all .1s ease-in-out;
+}
+
+.form-label-group input:not(:placeholder-shown) {
+  padding-bottom: calc(var(--input-padding-y) / 3);
+}
+
+.form-label-group input:not(:placeholder-shown)~label {
+  padding-top: calc(var(--input-padding-y) / 3);
+  padding-bottom: calc(var(--input-padding-y) / 3);
+  font-size: 12px;
+  color: #fff;
+}
+
+.was-validated .form-control:valid, .form-control.is-valid {
+  border-color: grey;
+  box-shadow: rgba(128, 128, 128, 0.473);
+}
+
+.was-validated .form-control:valid:focus, .form-control.is-valid:focus {
+  border-color: grey;
+  box-shadow: 0 0 0 0.2rem #0066b382;
+}
+
+#card2 {
+  background-color: $white;
+  border-radius: 0px 25px 25px 0px;
+}
+
+.custom-card-header{
+  background-color: $maincolor;
+  color: white;
+  border-radius: 0.25rem 0.25rem 0 0;
+}
+
+#body-row {
+  margin-left:0;
+  margin-right:0;
+}
+#sidebar-container {
+  background-color: $greycolor;
+  padding: 0;
+  margin: 0;
+  width: 102px;
+  position: fixed;
+  height: 100%;
+}
+
+#sidebar-container .list-group a {
+  height: 88px;
+  color: black;
+  text-align: center;
+  font-weight: 400;
+  font-size: 13px;
+  top: 2rem;
+  padding-top: 21px;
+}
+
+// //Must match the width of the sidebar
+#main-container{
+  margin-top: 3rem;
+}
+
+.navcontainer{
+  height: 2rem;
+}
+
+.titlestyle{
+  margin-top: 0.25rem;
+}
+
+.logo { 
+  height: 100%;
+  border: none;
+  //top: 162px !important;
+  object-fit: contain;
+  width: 100%;
+}
+
+// .col-2 {
+//   position: absolute;
+// }
+
+
+.list-group-item {
+  background-color: $greycolor;
+  border: none;
+}
+
+.list-group-item-action.active  {
+  background-color: white;
+}
+
+.list-group-item-action:hover {
+  background-color: #d3d3d4;
+}
+
+.list-group-item-action:focus {
+  background-color: #d3d3d4;
+}
+
+.sidebaricon {
+  display: inline-block;
+  width: 100%;
+  color: $maincolor;
+}
+
+.modal-header {
+  border-top-left-radius: 0.2rem;
+  border-top-right-radius: 0.2rem;
+  background-color: $maincolor;
+  color: white;
+}
+
+.close {
+  opacity: 1;
+  color: white;
+  line-height: 1.5;
+  text-shadow: none;
+}
+
+.actbuttonwrapper {
+  text-align: center;
+}
+
+.roombuttonwrapper {
+  text-align: center;
+}
+
+.progbuttonwrapper {
+  text-align: center;
+}
+
+.modbuttonwrapper {
+  text-align: center;
+}
+
+.dropbuttonwrapper {
+  text-align: center;
+}
+
+.themebuttonwrapper {
+  text-align: center;
+}
+
+.objbuttonwrapper {
+  text-align: center;
+}
+
+.userbuttonwrapper {
+  text-align: center;
+}
+
+.center{
+  text-align: center;
+}
+
+.dropdownbuttonwrapper {
+  text-align: center;
+}
+
+  //Table styling
+table {
+    border-collapse: collapse;
+}
+  
+table, th, td {
+    border: 1px solid black;
+    width: 100px;
+    height: 60px;
+}
+
+th, td {
+  padding: 15px;
+  text-align: left;
+  max-width: 200px;
+  word-wrap: break-word;
+}
+
+th {
+  background-color: $maincolor;
+  color: white;
+}
+tr:nth-child(even) {background-color: #f2f2f2;}
+tr:hover {background-color: #f5f5f5;}
+
+// Tabbed form - Activity wholes
+.nav-tabs {
+  border-bottom: none;
+  padding-bottom: 10px;
+}
+.nav-tabs>li>a {
+  background-color: $greycolor;
+  color: black;
+  border: 1px solid black;
+  padding: 3px 20px;
+  &:hover {
+     background-color: white;
+     color: black;
+  }
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+  color: black;
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid black;
+  border-bottom: 2px solid white;
+  border-radius: 5px;
+}
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+  color: black;
+  background-color: #fff;
+  border-color: #495057 #495057 white;
+}
+
+.nav-tabs .nav-link {
+  border: 1px solid #495057;
+  color: white;
+  background-color: lighten($maincolor, 5%);
+}
+
+.modal-xl{
+  width: 1000px;
+}
+
+.modal-body{
+  overflow: hidden;
+}
+
+#errors{
+  color: #dc3545;
+  font-size: large;
+}
+
+.vcenter {
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
+}
+
+.activity-p {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.pagination{
+  display: flex;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.pagination ul {
+  padding-bottom: 1rem;
+}
+
+#pagination-summary{
+  text-align: center;
+  padding-bottom: 1rem;
+}
+
+#page-summary{
+  text-align: center;
+  padding-bottom: 1rem;
+}
+
+.pagination li, .pagination em, .pagination a, .pagination span {
+  padding-right: 0.25rem;
+  padding-left: 0.25rem;
+}
+
+.pagination li.disabled a, .pagination li.active a{
+  text-decoration: none;
+  color: black;
+  cursor: not-allowed;
+}
+
+#objective, #gta {
+  margin: 1rem 0;
+}

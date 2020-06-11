@@ -1,0 +1,13 @@
+-# frozen_string_literal: true
+.modal-dialog
+  .modal-content
+    = simple_form_for(@theme, remote: true) do |f|
+      .modal-header
+        %h4.modal-title Edit Theme
+        %button.close{ type: :button, data: { dismiss: :modal } }
+          %span &times;
+      .modal-body
+        = f.input :code, as: :string, label: 'Theme Code'
+
+      .modal-footer
+        = f.button :submit, :class => "btn btn-primary btn-sm tablebutton"

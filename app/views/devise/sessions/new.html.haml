@@ -1,0 +1,25 @@
+- content_for :title, 'Log In'
+
+.container-fluid
+  .row.no-gutter
+    .d-none.d-md-flex.col-md-4.col-lg-6
+      = image_tag "logos/MEE.png", :class => "bg-image"
+    .col-md-8.col-lg-6#card2
+      .login.d-flex.align-items-center.py-5
+        .container
+          .row
+            .col-md-9.col-lg-8.mx-auto
+              
+              .card.card-light
+
+
+                = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+                  .card-header.custom-card-header
+                    %h4.loginheader CICS Login
+                  .card-body.form-label-group
+                    = f.input :username, autofocus: true, required: true
+                    = f.input :password, required: true
+
+                    = submit_button 'Log in'
+                    .mb-2= render "devise/shared/links"
+                    .text-center 

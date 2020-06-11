@@ -1,0 +1,14 @@
+-# frozen_string_literal: true
+.modal-dialog
+  .modal-content
+    = simple_form_for(@room, remote: true) do |f|
+      .modal-header
+        %h4.modal-title Edit Room
+        %button.close{ type: :button, data: { dismiss: :modal } }
+          %span &times;
+      .modal-body
+        = f.input :code, as: :string, label: 'Room Code (eg. 2.01)'
+        = f.input :name, as: :string, label: 'Room Name'
+
+      .modal-footer
+        = f.button :submit, "Update Room", :class => "btn btn-primary btn-sm tablebutton"

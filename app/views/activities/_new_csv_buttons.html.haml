@@ -1,0 +1,17 @@
+.row
+  .col-12
+    = link_to 'New Activity', new_activity_path, class: 'btn btn-primary btn-md tablebutton ajax-modal', style: "width: 100%; margin-bottom: 2rem", remote: true
+  .col-4
+    - # Form for legacy system CSV creation
+    = simple_form_for :output, url: "#{activities_path}/output.csv", method: @post_req ? :post : :get, target: '_blank'  do |f|
+      = f.hidden_field :act_ids, value: @post_req ? @activities_id : ""
+      = f.submit 'Export All Info to CSV', class: 'btn btn-primary btn-md tablebutton export', style: "width: 100%", data: { disable_with: false }
+  .col-4
+    - # Form for lab book csv creation
+    = simple_form_for :lab_book, url: "#{activities_path}/lab_book.csv", method: @post_req? :post : :get, target: '_blank' do |f|
+      = f.hidden_field :act_ids, value: @post_req ? @activities_id : ""
+      = f.submit 'Export Lab Book Info to CSV', class: 'btn btn-primary btn-md tablebutton export', style: "width: 100%", data: { disable_with: false }
+  .col-4
+    = simple_form_for :send_bulk, url: send_bulk_activities_path, method: :get do |s|
+      = s.hidden_field :act_ids, value: @activities_id
+      = s.submit 'Send Bulk Edit Request', class: 'btn btn-primary btn-md tablebutton', style: "width: 100%; margin-bottom: 2rem", data: { disable_with: false }

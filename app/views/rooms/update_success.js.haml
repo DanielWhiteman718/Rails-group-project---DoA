@@ -1,0 +1,5 @@
+$('#modalWindow').modal('hide');
+$("#rooms-table").html($('#{j render 'rooms_table'}'));
+$("#page-summary").html('#{page_entries_info @rooms, model: 'room'}');
+$("#page-link1").html('#{will_paginate @rooms}');
+$("#page-link2").html('#{will_paginate @rooms}');

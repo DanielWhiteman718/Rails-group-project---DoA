@@ -1,0 +1,5 @@
+$('#modalWindow').modal('hide');
+$("#programmes-table").html($('#{j render 'programmes_table'}'));
+$("#page-summary").html('#{page_entries_info @programmes, model: 'programme'}');
+$("#page-link1").html('#{will_paginate @programmes}');
+$("#page-link2").html('#{will_paginate @programmes}');

@@ -1,0 +1,13 @@
+%table.audit-table
+    %thead
+        %th Date
+        %th Action
+        %th Field
+        %th Previous Value
+        %th New Value
+        %th Changed By
+    %tbody
+        - @audits.each do |a|
+            %tr
+                - a.each do |field|
+                    %td #{field}

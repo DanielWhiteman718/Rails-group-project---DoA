@@ -1,0 +1,18 @@
+- if @programmes.size != 0
+    %table
+        %thead
+            %tr
+                %th Degree Code
+                %th Degree Name
+                %th
+                %th
+                %th
+
+        %tbody
+            - @programmes.each do |programme|
+                %tr
+                    %td= programme.code
+                    %td= programme.name
+                    %td= link_to 'Edit', edit_programme_path(programme), class: 'btn btn-primary btn-sm tablebutton ajax-modal'
+                    %td= link_to 'Remove', programme, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger btn-sm destroybutton"
+                    %td= link_to "Audit Log", audit_programme_path(programme), :class => "ajax-modal btn btn-primary btn-sm tablebutton"
